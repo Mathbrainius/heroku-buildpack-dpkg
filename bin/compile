@@ -43,7 +43,7 @@ for URL in $(cat $BUILD_DIR/Debfile); do
 done
 
 #DPKG=.dpkg
-DPKG=.
+DPKG=..
 
 mkdir -p $BUILD_DIR/$DPKG
 
