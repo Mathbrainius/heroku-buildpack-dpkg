@@ -46,7 +46,9 @@ mkdir -p $BUILD_DIR/.dpkg
 
 for DEB in $(ls -1 $DPKG_CACHE_DIR/*.deb); do
   topic "Installing $(basename $DEB)"
-  dpkg -x $DEB $BUILD_DIR/.dpkg/
+  # dpkg -i --force-not-root --root=$HOME package.deb
+  dpkg -i --force-not-root --root=$BUILD_DIR/.dpkg/ $DEB
+  # dpkg -x $DEB $BUILD_DIR/.dpkg/
 done
 
 topic "Writing profile script"
