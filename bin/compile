@@ -42,25 +42,27 @@ for URL in $(cat $BUILD_DIR/Debfile); do
   fi
 done
 
-mkdir -p $BUILD_DIR/.dpkg
+DPKG=.dpkg
+
+mkdir -p $BUILD_DIR/$DPKG
 
 for DEB in $(ls -1 $DPKG_CACHE_DIR/*.deb); do
   topic "Installing $(basename $DEB)"
   # dpkg -i --force-not-root --root=$HOME package.deb
-#  dpkg -i --force-not-root --root=$BUILD_DIR/.dpkg/ $DEB
-   dpkg -x $DEB $BUILD_DIR/.dpkg/
+#  dpkg -i --force-not-root --root=$BUILD_DIR/$DPKG/ $DEB
+   dpkg -x $DEB $BUILD_DIR/$DPKG/
 done
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_dpkg.sh
-export PATH="\$HOME/.dpkg/usr/bin:$PATH"
-export LD_LIBRARY_PATH="\$HOME/.dpkg/usr/lib:\$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="\$HOME/.dpkg/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="\$HOME/.dpkg/lib:\$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="\$HOME/.dpkg/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="\$HOME/.dpkg/lib64:\$LD_LIBRARY_PATH"
-export INCLUDE_PATH="\$HOME/.dpkg/usr/include:\$INCLUDE_PATH"
+export PATH="\$HOME/$DPKG/usr/bin:$PATH"
+export LD_LIBRARY_PATH="\$HOME/$DPKG/usr/lib:\$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="\$HOME/$DPKG/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="\$HOME/$DPKG/lib:\$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="\$HOME/$DPKG/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="\$HOME/$DPKG/lib64:\$LD_LIBRARY_PATH"
+export INCLUDE_PATH="\$HOME/$DPKG/usr/include:\$INCLUDE_PATH"
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
 EOF
